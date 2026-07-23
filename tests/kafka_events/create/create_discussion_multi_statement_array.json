@@ -1,0 +1,36 @@
+{
+  "submissionId": 9004,
+  "submissionType": "discussion",
+  "sessionId": "test9004multistatement01",
+  "tenantCode": "mitra",
+  "eventType": "create",
+  "eventPublishedAt": "2026-07-16T10:15:00.000Z",
+  "tags": {
+    "state": "Bihar",
+    "district": "Patna",
+    "organization": "Sahyogi Sanstha",
+    "programId": "8baf962e-7c52-46cd-9787-16e3ee4d4121",
+    "programName": "Shiksha Chaupals",
+    "leaderCategoryId": "96be72cf-aa0a-4bd3-b363-49271254177a",
+    "leaderCategoryName": "Women leader (WL)"
+  },
+  "data": {
+    "title": "Array iteration regression test — 3 independent single-theme challenges (expected: 3 separate Standard rows, each single-themed, no delimiter splitting)",
+    "userId": "9004",
+    "userName": "Test User",
+    "designation": "Women leader",
+    "submissionDate": "2026-07-16T10:15:00Z",
+    "imageUrls": [],
+    "pdfUrls": null,
+    "transcriptLink": null,
+    "challenges": [
+      "Our school children are not given books on time.",
+      "There is a shortage of teachers in the school, due to which subject-wise studies are not done.",
+      "The school is very far from the village."
+    ],
+    "solutions": [],
+    "participantsData": [],
+    "author": "9004",
+    "language": "en"
+  }
+}

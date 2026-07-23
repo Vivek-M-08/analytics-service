@@ -1,0 +1,34 @@
+{
+  "submissionId": 9001,
+  "submissionType": "discussion",
+  "sessionId": "test9001multithemelocal01",
+  "tenantCode": "mitra",
+  "eventType": "create",
+  "eventPublishedAt": "2026-07-16T10:00:00.000Z",
+  "tags": {
+    "state": "Bihar",
+    "district": "Patna",
+    "organization": "Sahyogi Sanstha",
+    "programId": "8baf962e-7c52-46cd-9787-16e3ee4d4121",
+    "programName": "Shiksha Chaupals",
+    "leaderCategoryId": "96be72cf-aa0a-4bd3-b363-49271254177a",
+    "leaderCategoryName": "Women leader (WL)"
+  },
+  "data": {
+    "title": "Multi-theme test — distance + parental negligence (expected: local embedding match, 2 themes)",
+    "userId": "9001",
+    "userName": "Test User",
+    "designation": "Women leader",
+    "submissionDate": "2026-07-16T10:00:00Z",
+    "imageUrls": [],
+    "pdfUrls": null,
+    "transcriptLink": null,
+    "challenges": [
+      "There is no school in the village after middle school, so children have to go far away, and due to the negligence of parents, both parents and children do not want to study further."
+    ],
+    "solutions": [],
+    "participantsData": [],
+    "author": "9001",
+    "language": "en"
+  }
+}

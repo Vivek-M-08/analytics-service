@@ -1,0 +1,34 @@
+{
+  "submissionId": 9003,
+  "submissionType": "story",
+  "sessionId": "test9003storysinglethem01",
+  "tenantCode": "mitra",
+  "eventType": "create",
+  "eventPublishedAt": "2026-07-16T10:10:00.000Z",
+  "tags": {
+    "state": "Bihar",
+    "district": "Patna",
+    "organization": "Sahyogi Sanstha",
+    "programId": "8baf962e-7c52-46cd-9787-16e3ee4d4121",
+    "programName": "Shiksha Chaupals",
+    "leaderCategoryId": "96be72cf-aa0a-4bd3-b363-49271254177a",
+    "leaderCategoryName": "Women leader (WL)"
+  },
+  "data": {
+    "title": "Story test — same multi-barrier text as create_discussion_multi_theme_local.json (expected: single theme, story never multi-maps)",
+    "userId": "9003",
+    "userName": "Test User",
+    "designation": "Facilitator",
+    "submissionDate": "2026-07-16T10:10:00Z",
+    "imageUrls": [],
+    "pdfUrls": null,
+    "transcriptLink": null,
+    "objective": "There is no school in the village after middle school, so children have to go far away, and due to the negligence of parents, both parents and children do not want to study further.",
+    "challenges": [],
+    "actionSteps": [],
+    "impact": "",
+    "duration": "",
+    "blurb": "",
+    "content": ""
+  }
+}
