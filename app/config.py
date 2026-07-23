@@ -12,6 +12,13 @@ class Settings(BaseSettings):
 
     # Database Configuration
     DATABASE_URL: str = Field(default="postgresql://postgres:postgres@localhost:5432/temporal")
+    # asyncpg connection pool bounds — this is the real concurrency ceiling for
+    # DB-touching activities (insert/update submission, llm_logs, etc). Sized too
+    # small and high-concurrency batches (e.g. 200+ simultaneous real-time
+    # submissions) stall almost entirely on pool.acquire() rather than failing
+    # fast, since activities queue for a connection instead of erroring out.
+    DATABASE_POOL_MIN_SIZE: int = Field(default=2, gt=0)
+    DATABASE_POOL_MAX_SIZE: int = Field(default=10, gt=0)
 
     # Orchestration Mode: 'real-time' or 'batch'
     PROCESSING_MODE: str = Field(default="real-time")

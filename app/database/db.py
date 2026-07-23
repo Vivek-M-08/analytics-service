@@ -82,8 +82,8 @@ class Database:
             try:
                 self.pool = await asyncpg.create_pool(
                     dsn=settings.DATABASE_URL,
-                    min_size=2,
-                    max_size=10
+                    min_size=settings.DATABASE_POOL_MIN_SIZE,
+                    max_size=settings.DATABASE_POOL_MAX_SIZE
                 )
                 await self.initialize_schema()
                 logger.info("Database connection pool established successfully.")
