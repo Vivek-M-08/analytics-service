@@ -1,4 +1,5 @@
 import json
+import os
 from typing import Dict, Any, List
 from pydantic import Field, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -40,6 +41,24 @@ class Settings(BaseSettings):
     # Temporal Configuration
     TEMPORAL_HOST: str = Field(default="localhost:7233")
     TEMPORAL_QUEUE: str = Field(default="analytics-processing-queue")
+    # Caps how many activities the worker runs simultaneously, regardless of how
+    # many workflows are started/queued — this is what actually protects the DB
+    # pool from an unpredictable event burst. Without a cap, every incoming
+    # event immediately becomes a concurrent DB-touching activity (load-tested:
+    # a 500-event burst instantly saturated a 100-connection Postgres instance).
+    # Anything beyond this limit waits safely in Temporal's own task queue
+    # instead of piling onto Postgres. Keep at or below DATABASE_POOL_MAX_SIZE.
+    WORKER_MAX_CONCURRENT_ACTIVITIES: int = Field(default=40, gt=0)
+
+    # Image processing (deface_blur_activity) concurrency — tune these against
+    # actual server specs (CPU cores, available memory), not whatever machine
+    # they were load-tested on. Download/upload are cheap I/O; face-blur spawns
+    # a real subprocess with a fresh ONNX model load every call and is the
+    # memory-expensive step — see deface_blur_activity.py for why these are
+    # treated as separate concerns rather than one concurrency number.
+    IMAGE_EXECUTOR_MAX_WORKERS: int = Field(default_factory=lambda: max(4, (os.cpu_count() or 4) * 2), gt=0)
+    PER_SUBMISSION_IMAGE_CONCURRENCY: int = Field(default=3, gt=0)
+    BLUR_CONCURRENCY_LIMIT: int = Field(default=2, gt=0)
 
     # API Authentication — single shared Bearer token, checked via
     # secrets.compare_digest in app/api/deps.py. Required (no default): the app
