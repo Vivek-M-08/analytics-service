@@ -1,7 +1,7 @@
 import json
 import os
 from typing import Dict, Any, List
-from pydantic import Field, field_validator
+from pydantic import Field, field_validator, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Settings(BaseSettings):
@@ -155,6 +155,18 @@ class Settings(BaseSettings):
         if v.startswith("postgresql+asyncpg://"):
             return v.replace("postgresql+asyncpg://", "postgresql://")
         return v
+
+    @model_validator(mode="after")
+    def validate_pool_bounds(self) -> "Settings":
+        # Without this, an inconsistent env config loads without error and only
+        # fails later at asyncpg.create_pool() with a generic ValueError that
+        # doesn't name the misconfigured variables.
+        if self.DATABASE_POOL_MIN_SIZE > self.DATABASE_POOL_MAX_SIZE:
+            raise ValueError(
+                f"DATABASE_POOL_MIN_SIZE ({self.DATABASE_POOL_MIN_SIZE}) must not exceed "
+                f"DATABASE_POOL_MAX_SIZE ({self.DATABASE_POOL_MAX_SIZE})."
+            )
+        return self
 
     @field_validator("PROCESS_CONFIG_STORY", "PROCESS_CONFIG_DISCUSSION")
     @classmethod

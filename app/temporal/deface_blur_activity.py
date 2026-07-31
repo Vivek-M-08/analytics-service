@@ -66,6 +66,21 @@ async def _run_in_image_executor(func, *args, **kwargs):
     return await loop.run_in_executor(_IMAGE_EXECUTOR, functools.partial(func, *args, **kwargs))
 
 
+def _is_allowed_media_host(resolved_url: str) -> bool:
+    """
+    Restricts image downloads to MEDIA_BASE_URL's own host. image_urls come
+    from stored submission payloads — an absolute URL there was previously
+    passed straight to urlopen() with no host check, so a malicious or
+    compromised upstream could make the worker fetch internal endpoints
+    (SSRF), and the concurrent per-image fan-out would only increase how many
+    such requests could be issued at once.
+    """
+    allowed_host = urllib.parse.urlparse(settings.MEDIA_BASE_URL).netloc.lower()
+    if not allowed_host:
+        return False
+    return urllib.parse.urlparse(resolved_url).netloc.lower() == allowed_host
+
+
 def _download_file(url: str, filename: str) -> Path:
     DOWNLOADS_DIR.mkdir(parents=True, exist_ok=True)
     local_path = DOWNLOADS_DIR / filename
@@ -92,6 +107,12 @@ async def _process_one_image(submission_id: str, tenant_code: str, sub_type: str
         logger.info(f"Reconstructed absolute URL for download: {resolved_url} (from relative path: {url_str})")
     else:
         resolved_url = url_str
+
+    if not _is_allowed_media_host(resolved_url):
+        raise ValueError(
+            f"Refusing to download image from disallowed host: {resolved_url!r} "
+            f"(only MEDIA_BASE_URL's host, {settings.MEDIA_BASE_URL!r}, is permitted)"
+        )
 
     parsed_path = urllib.parse.urlparse(resolved_url).path
     parts = [p for p in parsed_path.split("/") if p]
@@ -188,7 +209,13 @@ async def deface_blur_activity(params: Dict[str, Any]) -> Dict[str, Any]:
         return_exceptions=True,
     )
     for r in results:
-        if isinstance(r, Exception):
+        # BaseException, not Exception — return_exceptions=True also captures
+        # asyncio.CancelledError, which derives from BaseException. Temporal
+        # cancels activity coroutines on cancellation requests and heartbeat
+        # timeouts, so this path is reachable; missing it here would let a
+        # CancelledError reach the dict-indexing below and raise a confusing
+        # TypeError instead of properly propagating the cancellation.
+        if isinstance(r, BaseException):
             raise r
 
     blurred_local_paths = [r["public_url"] for r in results]

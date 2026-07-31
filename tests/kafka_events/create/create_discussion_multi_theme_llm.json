@@ -21,13 +21,20 @@
     "designation": "Women leader",
     "submissionDate": "2026-07-16T10:05:00Z",
     "imageUrls": [],
-    "pdfUrls": null,
-    "transcriptLink": null,
+    "pdfUrls": {
+      "original": "https://mohini-static.shikshalokam.org/chatbot/storymedia/9002/original.pdf",
+      "masked": "https://mohini-static.shikshalokam.org/chatbot/storymedia/masked/9002/original.pdf"
+    },
+    "transcriptLink": "test9002transcriptlink0001",
     "challenges": [
       "Since her father comes home intoxicated most nights and stays out late, the girl feels too frightened to walk back home from school alone once evening falls."
     ],
-    "solutions": [],
-    "participantsData": [],
+    "solutions": [
+      "Organizing a community escort/buddy system so girls are accompanied home safely in the evenings."
+    ],
+    "participantsData": [
+      { "role": "women", "count": 4 }
+    ],
     "author": "9002",
     "language": "en"
   }

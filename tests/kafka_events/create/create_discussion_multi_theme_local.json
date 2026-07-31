@@ -21,13 +21,21 @@
     "designation": "Women leader",
     "submissionDate": "2026-07-16T10:00:00Z",
     "imageUrls": [],
-    "pdfUrls": null,
-    "transcriptLink": null,
+    "pdfUrls": {
+      "original": "https://mohini-static.shikshalokam.org/chatbot/storymedia/9001/original.pdf",
+      "masked": "https://mohini-static.shikshalokam.org/chatbot/storymedia/masked/9001/original.pdf"
+    },
+    "transcriptLink": "test9001transcriptlink0001",
     "challenges": [
       "There is no school in the village after middle school, so children have to go far away, and due to the negligence of parents, both parents and children do not want to study further."
     ],
-    "solutions": [],
-    "participantsData": [],
+    "solutions": [
+      "Setting up a secondary school closer to the village and running awareness sessions for parents on the importance of continued education."
+    ],
+    "participantsData": [
+      { "role": "men", "count": 2 },
+      { "role": "women", "count": 3 }
+    ],
     "author": "9001",
     "language": "en"
   }

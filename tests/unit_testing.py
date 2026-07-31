@@ -1316,17 +1316,8 @@ def test_rating_001_valid_pdf_download_produces_and_persists_rating(monkeypatch)
 
 def test_rating_002_pdf_failure_falls_back_to_fields(monkeypatch):
     async def run_test():
-        content, source, total_chars = rating_module._fetch_story_content(
-            pdf_url="https://example.com/broken.pdf",
-            challenge="A challenge statement here", action_steps="Some action steps",
-            impact="Some impact", submission_id="1", tenant_code="mitra", log_prefix="[test]",
-        )
-
-        def fake_download_that_fails(url, local_path):
-            raise RuntimeError("404 not found")
-
         monkeypatch.setattr(rating_module, "_download_file", MagicMock(side_effect=RuntimeError("404 not found")))
-        content, source, total_chars = rating_module._fetch_story_content(
+        content, source, _total_chars = rating_module._fetch_story_content(
             pdf_url="https://example.com/broken.pdf",
             challenge="A challenge statement here", action_steps="Some action steps",
             impact="Some impact", submission_id="1", tenant_code="mitra", log_prefix="[test]",
@@ -1739,7 +1730,7 @@ def test_upload_004_valid_discussion_csv_uploads_successfully(test_client, monke
         files=_csv_file("valid_discussion.csv"),
     )
     assert resp.status_code == 200
-    assert resp.json()["report_type"] if False else resp.json()["status"] == "pending"
+    assert resp.json()["status"] == "pending"
 
 
 def test_upload_005_invalid_report_type_rejected(test_client):
